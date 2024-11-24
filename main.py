@@ -1,37 +1,119 @@
 
 from datetime import datetime
+import statistics
 
-Experimentos = []
 
-def agregarExperimento(experimento):
+class  AlmExperimento:
+    def __init__(self,nombre,fecha,tipoExperimento,resultadosExperimento):
+        self.nombre = nombre
+        self.fecha = fecha
+        self.tipoExperimento = tipoExperimento
+        self.resultadosExperimento = resultadosExperimento
+
+def agregarExperimento(Experimentos):
+
     nombre = input('ingrese un nombre para el experimento ')
-    Experimentos.append(nombre)
-    fecha = input('ingrese la fecha de realizacion "DD/MM/AAAA" ')
-    Experimentos.append(fecha)
+    fecha_str = input('ingrese la fecha de realizacion "DD/MM/AAAA" ')
+    try:
+        fecha = datetime.strptime(fecha_str,"%d/%m/%Y")
+    except ValueError:
+        print('**** Fecha no valida **** ')
+        return
+        
     tipoExperimento = input('ingrese el tipo de experimento (Quimica-Biologia-Fisica) ')
-    Experimentos.append(tipoExperimento)
-    resultadosEsperimento = input('cual fue el resultado del experimento Ejem:(24,48,56)')
-    Experimentos.append(resultadosEsperimento)
+    resultadosExperimento_str = input('cual fue el resultado del experimento Ejem:(24,48,56)')
+    try:
+        resultadosExperimento = list(map(float,resultadosExperimento_str.split(',')))
+    except ValueError:
+        print('**** Formato de Resultado de Experimento Invalido **** ')
+        return
     
 
-def visualizarExperimento():
-    pass
 
-def calcularExperimento():
-    pass
+    # se crea objeto para agregar a la lista de experimentos
+    experimentos = AlmExperimento(nombre,fecha,tipoExperimento,resultadosExperimento)
 
-def compararExperimento():
-    pass
+    Experimentos.append(experimentos)
+    print(' ----- el experimento se agrego exitosamente ---- ')
 
-def generarInforme():
-    pass
+    
 
-def generarTxt():
-    pass
+def visualizarExperimento(Experimentos):
+    if not Experimentos:
+        print('Lista de Experimentos Vacia')
+        return
+    for i,  experimentos in enumerate(Experimentos,start=1):
+        print('\n **** Experimentos ****')
+        print(f'Nombre: { experimentos.nombre}')
+        print(f'Fecha: { experimentos.fecha.strftime("%d/%m/%Y")}')
+        print(f'Tipo de Experimento: { experimentos.tipoExperimento}')
+        print(f'Resultados: { experimentos.resultadosExperimento}')
 
+    
+# funcion para analizar resultados 
+
+def calcularExperimento(Experimentos):
+    if not Experimentos:
+        print('Lista de Experimentos Vacia')
+        return
+    for experimentos in Experimentos:
+        promedio = statistics.mean(experimentos.resultadosExperimento)
+        maximo = max(experimentos.resultadosExperimento)
+        minimo = min(experimentos.resultadosExperimento)
+        print(f'\n **** Analisis de Experimentos **** {experimentos.nombre}')
+        print(f'Promedio de los valores obtenidos: {promedio}')
+        print(f'Valor maximo: {maximo}')
+        print(f'Valor minimo: {minimo}')
+
+ 
+
+def compararExperimento(Experimentos):
+
+    visualizarExperimento(Experimentos)
+    if not Experimentos:
+        print('Lista de Experimentos Vacia')
+        return
+    
+    nombreComparar = list(map(input('De los experimentos alamcenados,\n digite el nombre de los que desea comparar: Ejemplo: QUIMICA,FISICA: '))).lower()
+    compararResultados=[]
+    for nombreComparar in Experimentos:
+        if(nombreComparar == nombreComparar in len(Experimentos) ):
+            promedio = sum(Experimentos[nombreComparar][3] / len(Experimentos[nombreComparar][3]))
+            compararResultados.append((nombreComparar,promedio))
+        else:
+            print(f'Nombre {nombreComparar} no existe')
+    compararResultados.sort(key=lambda x: x [1])
+    print('Resultados comparados ')
+    for nombreComparar,promedio in compararResultados:
+        print(f'{nombreComparar+1}.{Experimentos[nombreComparar][0]} - {promedio}')
+
+
+    
+  
+
+    
+
+def generarInforme(Experimentos):
+    if not Experimentos:
+        print('Lista de Experimentos Vacia')
+        return
+# se abre un archivo txt para escribir el informe
+    with open("informe_experimentos.txt","w") as archivo:
+    # escribimos los detalles a relacionar en el archivo 
+        for experimentos in Experimentos:
+            archivo.write(f'Nombre: {experimentos.nombre}\n')
+            archivo.write(f'Fecha: {experimentos.fecha}\n')
+            archivo.write(f'Tipo: {experimentos.tipoExperimento}\n')
+            archivo.write(f'Resultados: {experimentos.resultadosExperimento}\n')
+            archivo.write('\n')
+    print('informe generado como: "informe_experimentos.txt" ')
+        
+
+
+    pass
 
 def menu():
-    
+    Experimentos=[]
 
     while True:
         print('\n SELECIONA LO QUE DESEAS HACER ')
@@ -39,28 +121,28 @@ def menu():
         print('\n 2. VISUALIZAR EXPERIMENTO ')
         print('\n 3. CALCULAR EXPERIMENTO ')
         print('\n 4. COMPARAR EXPERIMENTO ')
-        print('\n 5. GENERAR INFORME EN PANTALLA ')
-        print('\n 6. DESCARGAR INFORME ')
-        print('\n 7. SALIR  ')
+        print('\n 5. GENERAR INFORME ')
+        print('\n 6. SALIR ')
+      
 
-        opcion = input('SELECCIONE UNA OPCION  ')
+        opcion = input('\n SELECCIONE UNA OPCION  ')
 
         if opcion == '1':
             agregarExperimento(Experimentos)
         elif opcion == '2':
-            visualizarExperimento()
+            visualizarExperimento(Experimentos)
         elif opcion == '3':
-            calcularExperimento()
+            calcularExperimento(Experimentos)
         elif opcion == '4':
-            compararExperimento()
+            compararExperimento(Experimentos)
         elif opcion == '5':
-            generarInforme()
+            generarInforme(Experimentos)
+        
         elif opcion == '6':
-            generarTxt()
-        elif opcion == '7':
             print (' Gracias por utilizar nuestro programa , !hasta pronto¡')
             break
         else:
             print(' opcion invalida ')
+if __name__=="__main__":
 
-menu()
+    menu()
