@@ -67,25 +67,7 @@ def calcularExperimento(Experimentos):
 
  
 
-def compararExperimento(Experimentos):
 
-    visualizarExperimento(Experimentos)
-    if not Experimentos:
-        print('Lista de Experimentos Vacia')
-        return
-    
-    nombreComparar = list(map(input('De los experimentos alamcenados,\n digite el nombre de los que desea comparar: Ejemplo: QUIMICA,FISICA: '))).lower()
-    compararResultados=[]
-    for nombreComparar in Experimentos:
-        if(nombreComparar == nombreComparar in len(Experimentos) ):
-            promedio = sum(Experimentos[nombreComparar][3] / len(Experimentos[nombreComparar][3]))
-            compararResultados.append((nombreComparar,promedio))
-        else:
-            print(f'Nombre {nombreComparar} no existe')
-    compararResultados.sort(key=lambda x: x [1])
-    print('Resultados comparados ')
-    for nombreComparar,promedio in compararResultados:
-        print(f'{nombreComparar+1}.{Experimentos[nombreComparar][0]} - {promedio}')
 
 
     
