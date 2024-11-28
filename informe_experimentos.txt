@@ -1,0 +1,5 @@
+Nombre: python
+Fecha: 2024-11-14 00:00:00
+Tipo: quimica
+Resultados: [41.0, 12.0, 15.0]
+

@@ -1,3 +1,4 @@
+
 def compararExperimento(Experimentos):
     visualizarExperimento(Experimentos)
     if not Experimentos:
